@@ -10,34 +10,34 @@
 namespace DoubleExposure {
 
     uniform bool FirstExposure <
-		ui_tooltip = "Click to capture first image.";
+        ui_tooltip = "Click to capture first image.";
         ui_label = "Grab First Exposure";
-	> = false;
+    > = false;
     uniform bool SecondExposure <
-		ui_tooltip = "Click to capture second image.";
+        ui_tooltip = "Click to capture second image.";
         ui_label = "Grab Second Exposure";
-	> = false;
+    > = false;
     uniform float Weight <
-		ui_type = "slider";
-		ui_min = 0.0; ui_max = 1.0;
-		ui_step = 0.01;
-		ui_tooltip = "Weight of first exposure.";
+        ui_type = "slider";
+        ui_min = 0.0; ui_max = 1.0;
+        ui_step = 0.01;
+        ui_tooltip = "Weight of first exposure.";
         ui_label = "Weight ratio";
-	> = 0.5;
+    > = 0.5;
     uniform float Gamma <
-		ui_type = "slider";
-		ui_min = 0.01; ui_max = 4.44;
-		ui_step = 0.01;
-		ui_tooltip = "The gamma correction value for blending between exposures.";
+        ui_type = "slider";
+        ui_min = 0.01; ui_max = 4.44;
+        ui_step = 0.01;
+        ui_tooltip = "The gamma correction value for blending between exposures.";
         ui_label = "Gamma curve blending";
-	> = 1;
+    > = 1;
 
     texture texDoubleExposureFirst{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
     texture texDoubleExposureSecond{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
     texture texSDoubleExposureFirst{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
     texture texSDoubleExposureSecond{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
 
-	sampler2D samplerDoubleExposureFirst{ Texture = texDoubleExposureFirst; };
+    sampler2D samplerDoubleExposureFirst{ Texture = texDoubleExposureFirst; };
     sampler2D samplerDoubleExposureSecond{ Texture = texDoubleExposureSecond; };
     sampler2D samplerSDoubleExposureFirst{ Texture = texSDoubleExposureFirst; };
     sampler2D samplerSDoubleExposureSecond{ Texture = texSDoubleExposureSecond; };
@@ -79,26 +79,26 @@ namespace DoubleExposure {
     }
 
     technique DoubleExposure
-	    {
-            pass GrabFirstExposurePass { 
-                VertexShader = PostProcessVS; 
-                PixelShader = first_Exposure;
-                RenderTarget0 = texDoubleExposureFirst;
-            }
-            pass GrabSecondExposurePass { 
-                VertexShader = PostProcessVS; 
-                PixelShader = second_Exposure; 
-                RenderTarget = texDoubleExposureSecond;
-            }
-		    pass DoubleExposurePass { 
-                VertexShader = PostProcessVS; 
-                PixelShader = double_Exposure; 
-            }
-            pass store_Exposures {
-                VertexShader = PostProcessVS;
-                PixelShader = store_Exposures;
-                RenderTarget0 = texSDoubleExposureFirst;
-                RenderTarget1 = texSDoubleExposureSecond;
-            }
-	    }
+    {
+        pass GrabFirstExposurePass { 
+            VertexShader = PostProcessVS; 
+            PixelShader = first_Exposure;
+            RenderTarget0 = texDoubleExposureFirst;
+        }
+        pass GrabSecondExposurePass { 
+            VertexShader = PostProcessVS; 
+            PixelShader = second_Exposure; 
+            RenderTarget = texDoubleExposureSecond;
+        }
+		pass DoubleExposurePass { 
+            VertexShader = PostProcessVS; 
+            PixelShader = double_Exposure; 
+        }
+        pass store_Exposures {
+            VertexShader = PostProcessVS;
+            PixelShader = store_Exposures;
+            RenderTarget0 = texSDoubleExposureFirst;
+            RenderTarget1 = texSDoubleExposureSecond;
+        }
+    }
 }
