@@ -68,7 +68,6 @@ namespace DoubleExposure {
         float4 exposureSecond = pow(abs(tex2D(samplerSDoubleExposureSecond, texcoord)), Gamma);
 
         float4 doubleExposure = pow(abs(((exposureFirst * Weight) + (exposureSecond * (1.0 - Weight)))), 1.0 / Gamma);
-
         output = doubleExposure;
     }
 
@@ -90,7 +89,7 @@ namespace DoubleExposure {
             PixelShader = second_Exposure; 
             RenderTarget = texDoubleExposureSecond;
         }
-		pass DoubleExposurePass { 
+	pass DoubleExposurePass { 
             VertexShader = PostProcessVS; 
             PixelShader = double_Exposure; 
         }
