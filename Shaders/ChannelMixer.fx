@@ -10,7 +10,7 @@
 namespace ChannelMixer {
 
     uniform bool BlackWhite <
-		ui_label = "Black and White";
+	ui_label = "Black and White";
 	> = false;
     uniform float3 RedM <
         ui_type = "drag";
@@ -49,7 +49,7 @@ namespace ChannelMixer {
 
     technique ChannelMixer
     {
-	    pass ChannelMixerPass { 
+    	pass ChannelMixerPass { 
             VertexShader = PostProcessVS; 
             PixelShader = channel_Mixer; 
         }
