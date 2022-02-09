@@ -8,4 +8,4 @@ My first shader is made for, obviously, getting double exposures. There is a few
 Simple channel mixer shader from mixing or swapping image channels, could be useful to get different black and white images.
 
 ## DepthToAddon.fx
-Shader for creating depth dexture for [Raw Depth Buffer Export Addon](https://github.com/murchalloo/ReshadeAddons/tree/main/99-raw_depth_buffer_export) to use.
+Shader for creating depth dexture to use in [Raw Depth Buffer Export Addon](https://github.com/murchalloo/ReshadeAddons/tree/main/99-raw_depth_buffer_export).
