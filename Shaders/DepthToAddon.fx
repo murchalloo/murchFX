@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// DepthToAddon.fx v1.0 made by murchalloo
+// DepthToAddon.fx v1.2 made by murchalloo
 // https://github.com/murchalloo/murchFX
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,9 @@
 
 namespace DepthToAddon {
 	
-	texture DepthToAddonTex { Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
+	texture2D DepthToAddon_ExportTex { Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; }; //{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
+	texture2D DepthToAddon_DepthTex { Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = R8; };
+	texture2D DepthToAddon_NormalTex { Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA8; }; //{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA32F; };
 
 	float GetLinearizedDepth(float2 texcoord)
 	{
@@ -23,7 +25,7 @@ namespace DepthToAddon {
 
 		float depth = tex2Dlod(ReShade::DepthBuffer, float4(texcoord, 0, 0)).x;
 
-		const float C = 0.01;
+		const float C = 0.01; //0.01
 		if (RESHADE_DEPTH_INPUT_IS_LOGARITHMIC)
 			depth = (exp(depth * log(C + 1.0)) - 1.0) / C;
 
@@ -50,11 +52,11 @@ namespace DepthToAddon {
 		return normalize(cross(vertCenter - vertNorth, vertCenter - vertEast)) * 0.5 + 0.5;
 	}
 
-	void PS_DepthToAddon(in float4 position : SV_Position, in float2 texcoord : TEXCOORD, out float4 color : SV_Target)
+	void PS_DepthToAddon(in float4 position : SV_Position, in float2 texcoord : TEXCOORD, out float4 exportTex : SV_Target0, out float4 depthTex : SV_Target1, out float4 normalTex : SV_Target2)
 	{
-		float depth = GetLinearizedDepth(texcoord).x;
-		//float3 normal = GetScreenSpaceNormal(texcoord);
-		color = depth.xxx;
+		exportTex = float4(GetScreenSpaceNormal(texcoord).xyz, GetLinearizedDepth(texcoord).x);
+		depthTex = GetLinearizedDepth(texcoord).xxx;
+		normalTex = GetScreenSpaceNormal(texcoord).xyz;
 	}
 
 	technique DepthToAddon
@@ -63,7 +65,9 @@ namespace DepthToAddon {
 		{
 			VertexShader = PostProcessVS;
 			PixelShader = PS_DepthToAddon;
-			RenderTarget = DepthToAddonTex;
+			RenderTarget0 = DepthToAddon_ExportTex;
+			RenderTarget1 = DepthToAddon_DepthTex;
+			RenderTarget2 = DepthToAddon_NormalTex;
 		}
 	}
 }
