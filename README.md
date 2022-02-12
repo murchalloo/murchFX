@@ -11,4 +11,4 @@ Simple channel mixer shader from mixing or swapping image channels, could be use
 Shader for creating depth texture to use in [Frame Capture](https://github.com/murchalloo/reshade-addons/tree/main/99-frame_capture).
 There is additional parameter for SRGB conversion [#define SRGB_CONVERTION] it can get more precision at far objects, but ruins the foreground, so it's 0 by default.
 There is also additional parameter in the shader for exporting raw depth [#define EXPORT_NON_LINEARIZED] which is 0 by default, but if you want more precision (see image below for comparison), set it to 1.
-![Comparison](https://github.com/murchalloo/image_host/blob/main/precision_comp.png?raw=true)
+![Comparison](https://github.com/murchalloo/image_host/raw/main/precision_comp.png?raw=true)
